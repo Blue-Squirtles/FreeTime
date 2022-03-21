@@ -2,6 +2,7 @@ const path = require('path');
 const { google } = require('googleapis');
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const controller = require('./controller/controller');
 
 const oauth2Client = new google.auth.OAuth2(
   // '604500176482-tno61jdk9904lgmqbjiru7t00adl49jj.apps.googleusercontent.com',
@@ -25,6 +26,7 @@ const PORT = 3000;
 
 app.use(cookieParser());
 app.use(express.json());
+
 app.use('/freetime', express.static(path.join(__dirname, '/../client/dist')));
 // app.get('/oauth2callback*', express.static(path.join(__dirname, '/../client/dist')));
 app.get('/oauth2callback', async (req, res) => {
@@ -44,17 +46,23 @@ app.get('/oauth2callback', async (req, res) => {
 
   res.redirect('/freetime');
 });
+
 app.get('/login', (req, res) => {
   res.redirect(url);
 });
 
-// app.get('/friends', (req, res) => {
+// gets users google calendar
+app.get('/freetime/import', controller.import);
 
-// });
+// gets a user's activities
+app.get('/freetime/activities', controller.getActivities);
 
-// app.get('/availability', (req, res) => {
-//   // Lookup user & friend auth tokens based
-// });
+// user creates an activity, it gets added to their calender and the invited atteendees calendar
+app.post('/freetime/addActivity', controller.addActivity);
+
+// add a new user with their email and google tokens
+app.post('/freetime/addUser', controller.addUser);
 
 app.listen(PORT, () => {
+  console.log(`Server listening on port: ${PORT}`);
 });
