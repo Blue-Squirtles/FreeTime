@@ -3,12 +3,11 @@ const { google } = require('googleapis');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const controller = require('./controller/controller');
+const { CLIENT_SECRET, CLIENT_ID } = require('./keys');
 
 const oauth2Client = new google.auth.OAuth2(
-  // '604500176482-tno61jdk9904lgmqbjiru7t00adl49jj.apps.googleusercontent.com',
-  // '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',
-  '678121656554-2lvjhnetj5opqqsdhmg077lufv6gr5lb.apps.googleusercontent.com',
-  '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',
+  CLIENT_ID,
+  CLIENT_SECRET,
   'http://localhost:3000/oauth2callback',
 );
 
