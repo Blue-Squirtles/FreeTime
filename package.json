@@ -9,14 +9,20 @@
   },
   "dependencies": {
     "axios": "^0.26.1",
+<<<<<<< HEAD
     "cookie-parser": "^1.4.6",
+=======
+    "bootstrap": "^5.1.3",
+>>>>>>> a9356e5 (modal, nav, create event form created)
     "express": "^4.16.3",
     "googleapis": "^97.0.0",
     "pg": "^8.7.3",
     "react": "^17.0.2",
+    "react-bootstrap": "^2.2.1",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
-    "redux": "^4.1.2"
+    "redux": "^4.1.2",
+    "styled-components": "^5.3.3"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
