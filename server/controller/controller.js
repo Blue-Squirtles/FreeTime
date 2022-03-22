@@ -1,5 +1,7 @@
+/* eslint-disable camelcase */
 const axios = require('axios');
 const model = require('../model/model');
+const { CLIENT_ID, CLIENT_SECRET, API_KEY } = require('../keys');
 
 module.exports = {
   getActivities: (req, res) => {
@@ -17,19 +19,51 @@ module.exports = {
 
   import: async (req, res) => {
     // make db query to get users access token
-    const email = [req.query.email];
+    const { email, timeMin, timeMax } = req.query;
     const results = await model.getTokens(email);
     const { access_token, refresh_token } = results.rows[0];
 
-    // axios.post('https://www.googleapis.com/calendar/v3/freeBusy?key=${API_Key}',
-    // )
-    //   .then
-
-    // use axios to make post request to google endpoint for google free/busy object
-    // try google query with access token
-    // if succeed send
-    // if fail use refresh to get new access token
-    // redo google api query with new token
+    axios({
+      method: 'post',
+      url: 'https://www.googleapis.com/calendar/v3/freeBusy?',
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      params: {
+        key: API_KEY,
+      },
+      data: {
+        timeMin,
+        timeMax,
+        items: [
+          {
+            id: email,
+          },
+        ],
+      },
+    })
+      .then((response) => {
+        res.status(200).send(response.data.busy);
+      })
+      .catch((err) => {
+        console.log(err);
+        // refresh token and try again
+        axios({
+          method: 'post',
+          url: 'https://www.googleapis.com/oauth2/v4/token',
+          params: {
+            client_id: CLIENT_ID,
+            client_secret: CLIENT_SECRET,
+            refresh_token,
+            grant_type: 'refresh_token',
+          },
+        })
+          .then((response) => {
+            // save new access token and recall method
+          });
+      });
   },
 
   getFriends: (req, res) => {
@@ -112,7 +146,6 @@ module.exports = {
 //     });
 //   }
 // },
-
 
 //  // add activity and get resulting activity id
 //  const activityResult = await model.addActivity(activity);
