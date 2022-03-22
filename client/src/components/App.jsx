@@ -30,17 +30,14 @@ const App = () => {
               <Modal header="Stats" buttonLabel="Stats" />
               <br />
               <Modal header="Suggestion" buttonLabel="Suggestion" submitButton="Accept" declineButton="Decline" body={<Suggestion />} />
+              <Friends />
             </SideBar>
           </Col>
           <Col xs={6} md={9}>
-            <View>Hello World
-            </View>
           </Col>
         </Row>
       </Container>
       </div>
-
-      <Friends />
 
     </div>
   );
@@ -52,7 +49,8 @@ const SideBar = styled.div`
   max-width: 350px;
   height: 1000px;
   background-color: gray;
-`
+`;
+
 const View = styled.div`
   width: 100px;
-`
+`;
