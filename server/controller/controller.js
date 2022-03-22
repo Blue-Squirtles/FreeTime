@@ -20,7 +20,7 @@ module.exports = {
   import: async (req, res) => {
     // make db query to get users access token
     const { email, timeMin, timeMax } = req.query;
-    const results = await model.getTokens(email);
+    const results = await model.getTokens([email]);
     const { access_token, refresh_token } = results.rows[0];
 
     axios({
@@ -45,24 +45,60 @@ module.exports = {
       },
     })
       .then((response) => {
-        res.status(200).send(response.data.busy);
+        res.status(200).send(response.data.calendars[email].busy);
       })
       .catch((err) => {
-        console.log(err);
-        // refresh token and try again
-        axios({
-          method: 'post',
-          url: 'https://www.googleapis.com/oauth2/v4/token',
-          params: {
-            client_id: CLIENT_ID,
-            client_secret: CLIENT_SECRET,
-            refresh_token,
-            grant_type: 'refresh_token',
-          },
-        })
-          .then((response) => {
-            // save new access token and recall method
-          });
+        // if error type is 401 refresh token and try again
+        if (err.response.status !== 401) {
+          res.sendStatus(500);
+        } else {
+          axios({
+            method: 'post',
+            url: 'https://www.googleapis.com/oauth2/v4/token',
+            params: {
+              client_id: CLIENT_ID,
+              client_secret: CLIENT_SECRET,
+              refresh_token,
+              grant_type: 'refresh_token',
+            },
+          })
+            .then((response) => {
+              // save new access token and recall method
+              const params = [response.data.access_token, email];
+              model.updateAccessToken(params, (error, results) => {
+                if (error) {
+                  console.log('update token db', error);
+                }
+              });
+              axios({
+                method: 'post',
+                url: 'https://www.googleapis.com/calendar/v3/freeBusy?',
+                headers: {
+                  Authorization: `Bearer ${response.data.access_token}`,
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                params: {
+                  key: API_KEY,
+                },
+                data: {
+                  timeMin,
+                  timeMax,
+                  items: [
+                    {
+                      id: email,
+                    },
+                  ],
+                },
+              })
+                .then((response) => {
+                  res.status(200).send(response.data.calendars[email].busy);
+                })
+                .catch((err) => {
+                  res.sendStatus(500);
+                });
+            });
+        }
       });
   },
 
@@ -123,6 +159,7 @@ module.exports = {
     model.addUser(user, (error, results) => {
       callback(error, results);
     });
+    // res.send('ok')
   },
 };
 
