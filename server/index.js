@@ -27,10 +27,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use('/freetime', express.static(path.join(__dirname, '/../client/dist')));
-// app.get('/oauth2callback*', express.static(path.join(__dirname, '/../client/dist')));
 app.get('/oauth2callback', async (req, res) => {
-  console.log('Received code', req.query.code);
-
   const { tokens } = await oauth2Client.getToken(req.query.code);
 
   // Parse and validate JWT to the ID
@@ -42,8 +39,15 @@ app.get('/oauth2callback', async (req, res) => {
   const payload = ticket.getPayload();
   const { email } = payload;
   console.log(JSON.stringify(email));
-
-  res.redirect('/freetime');
+  const user = [email, tokens.access_token, tokens.refresh_token];
+  controller.addUser(user, (err, result) => {
+    if (err === null) {
+      res.redirect('/freetime');
+    } else {
+      res.redirect('/freetime');
+      // res.status(500).send(err);
+    }
+  });
 });
 
 app.get('/login', (req, res) => {
@@ -52,6 +56,9 @@ app.get('/login', (req, res) => {
 
 // gets users google calendar
 app.get('/freetime/import', controller.import);
+
+// gets all friends (all other users in our case)
+app.get('/freetime/friends', controller.getFriends);
 
 // gets a user's activities
 app.get('/freetime/activities', controller.getActivities);
