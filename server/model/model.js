@@ -40,13 +40,14 @@ module.exports = {
     });
   },
 
-  addActivity: (activity) => {
+  addActivity: (activity, callback) => {
     return new Promise((resolve, reject) => {
-      const query = 'insert into activities(create_user_id, name, description, start, end) VALUES ($1, $2, $3, $4, $5) RETURNING activity_id';
+      const query = 'insert into activities(create_user_id, name, description, start, "end") VALUES ($1, $2, $3, $4, $5) RETURNING activity_id';
       db.query(query, activity, (error, results) => {
         if (error) {
           reject(error);
         }
+        callback(results);
         resolve(results);
       });
     });
@@ -67,6 +68,13 @@ module.exports = {
   addUser: (params, callback) => {
     const query = 'insert into users(email, access_token, refresh_token) VALUES ($1, $2, $3) on conflict (email) do update set access_token = $2, refresh_token = $3';
     db.query(query, params, (err, results) => {
+      callback(err, results);
+    });
+  },
+
+  updateAccessToken: (token, callback) => {
+    const query = 'update users set access_token = $1 where email = $2;';
+    db.query(query, token, (err, results) => {
       callback(err, results);
     });
   },
