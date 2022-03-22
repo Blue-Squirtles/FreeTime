@@ -123,6 +123,7 @@ module.exports = {
     model.addUser(user, (error, results) => {
       callback(error, results);
     });
+    // res.send('ok')
   },
 };
 

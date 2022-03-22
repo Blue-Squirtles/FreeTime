@@ -65,7 +65,7 @@ module.exports = {
   },
 
   addUser: (params, callback) => {
-    const query = 'insert into users(email, access_token, refresh_token) VALUES ($1, $2, $3)';
+    const query = 'insert into users(email, access_token, refresh_token) VALUES ($1, $2, $3) on conflict (email) do update set access_token = $2, refresh_token = $3';
     db.query(query, params, (err, results) => {
       callback(err, results);
     });
