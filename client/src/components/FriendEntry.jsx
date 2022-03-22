@@ -8,7 +8,6 @@ const FriendEntry = ({ friendName }) => {
   return (
     <div className="eachFriend">
 
-      <div>
         <label>
           <input
             type="checkbox"
@@ -20,11 +19,10 @@ const FriendEntry = ({ friendName }) => {
                 setActive(true);
               }
             }}
-            className={active ? 'active' : ''}
+            className={active ? 'active' : 'hide'}
           />
           {friendName}
         </label>
-      </div>
 
     </div>
   );

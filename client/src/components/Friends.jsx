@@ -23,7 +23,7 @@ const Friends = () => {
       <h3><u>My Friends</u></h3>
 
       <ul>
-        {allFriends.map((item, i) => <FriendEntry friendName={item} setActive={false} />)}
+        {allFriends.map((item, i) => <FriendEntry friendName={item} key={i} setActive={false} />)}
       </ul>
 
     </div>
