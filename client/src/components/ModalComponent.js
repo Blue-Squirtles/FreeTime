@@ -1,0 +1,38 @@
+import React, { useState } from 'react';
+import { Modal, Button } from 'react-bootstrap';
+
+function ModalComponent({ header, buttonLabel, submitButton, declineButton, body }) {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  return (
+    <div>
+      <Button variant="primary" onClick={handleShow}>
+        {buttonLabel}
+      </Button>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>{header}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {body}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          {submitButton ? <Button variant="primary" onClick={handleClose}>
+            {submitButton}
+          </Button> : null}
+          { declineButton ? <Button variant="primary" onClick={handleClose}>
+            { declineButton}
+          </Button> : null}
+        </Modal.Footer>
+      </Modal>
+    </div>
+  );
+};
+
+export default ModalComponent;
