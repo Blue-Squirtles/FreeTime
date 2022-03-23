@@ -65,7 +65,9 @@ const App = () => {
                 {userEmail && <Friends />}
               </SideBar>
             </Col>
-            <Col xs={6} md={9} />
+            <Col xs={6} md={9}>
+              <Week />
+            </Col>
           </Row>
         </Container>
 
