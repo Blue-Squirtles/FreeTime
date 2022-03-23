@@ -14,7 +14,7 @@ const exampleActivities = [
     name: 'grab boba',
     description: 'act description',
     start: '2022-03-23T02:10:25.000Z',
-    end: '2022-03-23T03:15:25.000Z',
+    end: '2022-03-23T02:15:25.000Z',
     Attendees: ['attendee one email', 'attendee two email'],
   },
   {
@@ -22,20 +22,20 @@ const exampleActivities = [
     create_user_id: 1,
     name: 'second activity',
     description: 'act description',
-    start: '2022-06-24T02:10:25.000Z',
-    end: '2022-06-24T02:15:25.000Z',
+    start: '2022-06-23T02:10:25.000Z',
+    end: '2022-06-23T02:15:25.000Z',
     Attendees: ['attendee one email', 'attendee two email'],
   },
 ];
 
 const exampleGoogle = [
   {
-    start: '2022-03-18T20:30:00Z',
-    end: '2022-03-18T21:00:00Z',
+    start: '2022-03-23T20:30:00Z',
+    end: '2022-03-23T21:00:00Z',
   },
   {
-    start: '2022-03-21T16:30:00Z',
-    end: '2022-03-21T17:15:00Z',
+    start: '2022-03-23T16:30:00Z',
+    end: '2022-03-23T17:15:00Z',
   },
   {
     start: '2022-03-23T18:45:00Z',
@@ -43,7 +43,11 @@ const exampleGoogle = [
   },
   {
     start: '2022-03-23T18:00:00Z',
-    end: '2022-03-23T18:15:00Z',
+    end: '2022-03-23T18:50:00Z',
+  },
+  {
+    start: '2022-03-23T02:00:00Z',
+    end: '2022-03-23T02:50:00Z',
   },
 ];
 
