@@ -40,14 +40,13 @@ module.exports = {
     });
   },
 
-  addActivity: (activity, callback) => {
+  addActivity: (activity) => {
     return new Promise((resolve, reject) => {
       const query = 'insert into activities(create_user_id, name, description, start, "end") VALUES ($1, $2, $3, $4, $5) RETURNING activity_id';
       db.query(query, activity, (error, results) => {
         if (error) {
           reject(error);
         }
-        callback(results);
         resolve(results);
       });
     });
