@@ -1,5 +1,10 @@
 import React from 'react';
 import moment from 'moment';
+import styled from 'styled-components';
+
+const Tick = styled.div`
+  height: ${100 / 24}%;
+`;
 
 const getHours = () => {
   const items = [];
@@ -16,7 +21,7 @@ function Ruler() {
     <div>
       {hours.map((hour) => {
         return (
-          <div id={hour}>{hour} -</div>
+          <Tick id={hour}>{parseInt(hour.slice(0, 2), 10) % 4 === 0 ? hour + '-' : '-'}</Tick>
         );
       })}
     </div>
