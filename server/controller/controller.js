@@ -128,31 +128,31 @@ module.exports = {
       req.body.start,
       req.body.end,
     ];
-    const activityID = await model.addActivity(activity, (error, results) => {
+    const activityResult = await model.addActivity(activity, (error, results) => {
       if (error) {
         console.log('post error', error);
         res.sendStatus(500);
-      } else {
-        const creator = [activityID, creatorID, req.body.email, true, true];
-        model.addAttendee(creator, (createError, results) => {
-          if (createError) {
-            res.sendStatus(500);
-          } else {
-            const { attendees } = req.body.attendees;
-            for (let i = 0; i < attendees.length; i += 1) {
-              const currentAttendee = attendees[i];
-              const params = [activityID, currentAttendee.user_id, null, false];
-              model.addAttendee(params, (attendeeError, results) => {
-                if (attendeeError) {
-                  res.sendStatus(500);
-                }
-              });
-            }
-          }
-        });
-        res.sendStatus(200);
       }
     });
+    const activityID = activityResult.rows[0].activity_id;
+    const creator = [activityID, creatorID, req.body.email, true, true];
+
+    const addCreator = await model.addAttendee(creator, (createError, results) => {
+      if (createError) {
+        res.sendStatus(500);
+      }
+    });
+    const attendees = req.body.attendees;
+    for (let i = 0; i < attendees.length; i += 1) {
+      const currentAttendee = attendees[i];
+      const params = [activityID, currentAttendee.user_id, currentAttendee.email, null, false];
+      model.addAttendee(params, (attendeeError, results) => {
+        if (attendeeError) {
+          res.sendStatus(500);
+        }
+      });
+    }
+    res.sendStatus(200);
   },
 
   addUser: (user, callback) => {
