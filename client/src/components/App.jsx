@@ -11,16 +11,23 @@ import axios from 'axios';
 
 // Components--
 import styled from 'styled-components';
-import Modal from './ModalComponent';
-import CreateEventForm from './CreateEventForm';
-import Suggestion from './Suggestion';
-import NavComponent from './NavComponent';
+import Modal from './ModalComponent.jsx';
+import CreateEventForm from './CreateEventForm.jsx';
+import Suggestion from './Suggestion.jsx';
+import NavComponent from './NavComponent.jsx';
 import Friends from './Friends.jsx';
-import AppContext from './AppContext.jsx';
 // import Day from './WeekView/Day.jsx';
 import Week from './WeekView/Week.jsx';
 
+export const AppContext = createContext();
+
+const myJWT = document.cookie.split('=')[2];
+
 const App = () => {
+  const [userEmail, setUserEmail] = useState('');
+  const [presentDate, setPresentDate] = useState(''); // present date
+  const [eightDaysAway, setEightDaysAway] = useState(''); // the date 8 days in the future
+  const [selectedFriends, setSelectedFriends] = useState('');
   const [userCalendar, setUserCalendar] = useState(null);
   const value = useMemo(() => {
     return {
@@ -29,31 +36,42 @@ const App = () => {
     };
   }, [userCalendar]);
 
+  const parseJwt = (token) => {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
+      return `%${(`00${c.charCodeAt(0).toString(16)}`).slice(-2)}`;
+    }).join(''));
+    return JSON.parse(jsonPayload);
+  };
+  const myEmail = (parseJwt(myJWT).email);
+
+  useEffect(() => {
+    setUserEmail(myEmail);
+  }, []);
+
   return (
-    <AppContext.Provider value={value}>
+    <AppContext.Provider value={{
+      userEmail, selectedFriends, setSelectedFriends, presentDate, eightDaysAway, value
+    }}
+    >
       <div>
-        <div>
-          <Container>
-            <NavComponent />
-            <Row>
-              <Col xs={12} md={3}>
-                <SideBar>
-                  <br />
-                  <Modal header="Create Event" buttonLabel="Create Event" submitButton="Send Event" body={<CreateEventForm />} />
-                  <br />
-                  <Modal header="Stats" buttonLabel="Stats" />
-                  <br />
-                  <Modal header="Suggestion" buttonLabel="Suggestion" submitButton="Accept" declineButton="Decline" body={<Suggestion />} />
-                  <Friends />
-                </SideBar>
-              </Col>
-              <Col xs={6} md={9} />
-            </Row>
-          </Container>
-        </div>
-        <Week />
+
+        <Container>
+          <NavComponent />
+          <Row>
+            <Col xs={12} md={3}>
+              <SideBar>
+                {userEmail && <Friends />}
+              </SideBar>
+            </Col>
+            <Col xs={6} md={9} />
+          </Row>
+        </Container>
+
       </div>
     </AppContext.Provider>
+
   );
 };
 

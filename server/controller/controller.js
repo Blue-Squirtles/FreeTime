@@ -162,36 +162,3 @@ module.exports = {
     // res.send('ok')
   },
 };
-
-// This adds google activities to database. Needed?"
-
-// addGoogleActivities: async (req, res) => {
-//   // check on how data comes in
-//   const email = [Object.keys(req.body.calendars)[0]];
-//   const userID = await model.getUserId(email);
-//   const schedule = req.body.calendars[email].busy;
-
-//   for (let i = 0; i < schedule.length; i += 1) {
-//     const activity = [userID, null, null, schedule[i].start, schedule[i].end, true, false];
-//     model.addActivity(activity, (error, results) => {
-//       if (error) {
-//         console.log('post error', error);
-//         res.sendStatus(500);
-//       } else {
-//         res.sendStatus(200);
-//       }
-//     });
-//   }
-// },
-
-//  // add activity and get resulting activity id
-//  const activityResult = await model.addActivity(activity);
-//  const activityID = activityResult.rows[0].activity_id;
-
-//  // add creator of activity to attendees table
-//  const creator = [activityID, creatorID, req.body.email, true, true];
-//  await model.addAttendee(creator);
-
-//  // add invited friends to attendees table
-//  const attendees = req.body.attendees;
-// },

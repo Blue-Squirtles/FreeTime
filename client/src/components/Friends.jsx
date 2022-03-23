@@ -1,36 +1,40 @@
 /* eslint-disable react/function-component-definition */
 /* eslint-disable no-unused-vars */
-import React, {useState, useEffect, createContext, useContext} from 'react';
-import FriendEntry from './FriendEntry.jsx';
+import React, {
+  useState, useEffect, createContext, useContext,
+} from 'react';
 import axios from 'axios';
-
-let allFriends = ['Brian', 'Eliza', 'Ryan', 'Emily', 'Evan'];
+import FriendEntry from './FriendEntry.jsx';
+import { AppContext } from './App.jsx';
+const allFriends = ['Brian', 'Eliza', 'Ryan', 'Emily', 'Evan'];
 
 const Friends = () => {
-  const [currentUser, setCurrentUser] = useState(allFriends[0]);
-  const [friendsList, setFriendsList] = useState(allFriends);
-  const [friendGetData, setFriendGetData] = useState('');
+  // Context
+  const { userEmail } = useContext(AppContext);
+  // State
+  const [friendsList, setFriendsList] = useState(allFriends); // array of friends emails
+  const [friendGetData, setFriendGetData] = useState(''); // freetime/friends
+  // allFriends = allFriends.filter((item, i) => { return item !== currentUser; });
 
-  allFriends = allFriends.filter((item, i) => item !== currentUser);
-
+  // Functions
   const getAllFriends = () => {
-    const currentUserEmail = 'justin.t.greer1@gmail.com';
+    // if (userEmail) {
     axios
-      .get('/freetime/friends', { params: { email: currentUserEmail } })
-      .then((res) => {
-        const data = res.data;
-        console.log(data);
+      .get('/freetime/friends', { params: { email: userEmail } })
+      .then((response) => {
+        const { data } = response;
+        // console.log(data);
         setFriendGetData(data);
       })
       .catch((err) => {
         console.log(err);
       });
+    // }
   };
 
   const shapeFriendData = () => {
     if (friendGetData) {
       const friendsArray = [];
-      // console.log('friend get data: ', Array.isArray(friendGetData), friendGetData);
       friendGetData.forEach((item) => {
         friendsArray.push(item.email);
       });
@@ -40,7 +44,7 @@ const Friends = () => {
 
   useEffect(() => {
     getAllFriends();
-  }, []);
+  }, []); // invoke this effect only on page load
 
   useEffect(() => {
     shapeFriendData();
@@ -52,14 +56,16 @@ const Friends = () => {
       <div>
         Logged in as:
         <i>
-          <b>{' ' + currentUser}</b>
+          <b>{` ${userEmail}`}</b>
         </i>
       </div>
 
       <h3><u>My Friends</u></h3>
 
       <ul>
-        {friendsList.map((item, i) => <FriendEntry friendName={item} key={i} setActive={false} />)}
+        {friendsList.map((item, i) => {
+          return <FriendEntry friendName={item} key={i} setActive={false} />;
+        })}
       </ul>
 
     </div>
