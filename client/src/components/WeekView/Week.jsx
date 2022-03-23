@@ -85,11 +85,6 @@ function Week() {
   // pretend we have done the processing to only pass the Day component events that are meant for it
   // iterate over and preprocess the google events
   // iterate over and preprocess the FreeTime events
-<<<<<<< HEAD
-  const date = selectedDay.substring(0, 10);
-  const filteredGoogleEvents = filterEvents(date, exampleGoogle);
-  const filteredActivities = filterEvents(date, exampleActivities);
-=======
   console.log('date: ', date, 'fetchedDays', fetchedDays);
   const filteredGoogleEvents = exampleGoogle.filter((event) => {
     const eventDate = event.start.substring(0, 10);
@@ -103,11 +98,9 @@ function Week() {
       return activity;
     }
   });
->>>>>>> creating week view with 7 mapped day components
 
   return (
     <div>
-<<<<<<< HEAD
       <WeekWrapepr>
         <Ruler />
         <div>
@@ -118,20 +111,6 @@ function Week() {
           />
         </div>
       </WeekWrapepr>
-=======
-      <Ruler />
-      <div>
-        {fetchedDays.map((day) => {
-          return (
-            <Day
-              date={day}
-              google={filteredGoogleEvents}
-              activities={filteredActivities}
-            />
-          );
-        })}
-      </div>
->>>>>>> creating week view with 7 mapped day components
     </div>
   );
 }
