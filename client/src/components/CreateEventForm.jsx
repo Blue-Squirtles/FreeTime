@@ -31,7 +31,8 @@ function CreateEventForm() {
             <Form.Control type="time" placeholder="time" />
           </FloatingLabel>
 
-          <FloatingLabel controlId="floatingInput"
+          <FloatingLabel
+            controlId="floatingInput"
             label="Invite Friends"
             className="mb-3"
           >

@@ -38,6 +38,7 @@ app.get('/oauth2callback', async (req, res) => {
   const ticket = await oauth2Client.verifyIdToken({ idToken: req.cookies.jwt });
   const payload = ticket.getPayload();
   const { email } = payload;
+
   console.log(JSON.stringify(email));
   const user = [email, tokens.access_token, tokens.refresh_token];
   controller.addUser(user, (err, result) => {
