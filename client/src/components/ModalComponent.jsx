@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
-function ModalComponent({ header, buttonLabel, submitButton, declineButton, body }) {
+function ModalComponent({
+  header, buttonLabel, submitButton, declineButton, body,
+}) {
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => { return setShow(false); };
+  const handleShow = () => { return setShow(true); };
 
   return (
     <div>
@@ -23,16 +25,20 @@ function ModalComponent({ header, buttonLabel, submitButton, declineButton, body
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          {submitButton ? <Button variant="primary" onClick={handleClose}>
-            {submitButton}
-          </Button> : null}
-          { declineButton ? <Button variant="primary" onClick={handleClose}>
-            { declineButton}
-          </Button> : null}
+          {submitButton ? (
+            <Button variant="primary" onClick={handleClose}>
+              {submitButton}
+            </Button>
+          ) : null}
+          { declineButton ? (
+            <Button variant="primary" onClick={handleClose}>
+              { declineButton}
+            </Button>
+          ) : null}
         </Modal.Footer>
       </Modal>
     </div>
   );
-};
+}
 
 export default ModalComponent;

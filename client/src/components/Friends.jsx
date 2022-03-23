@@ -1,35 +1,29 @@
 /* eslint-disable react/function-component-definition */
 /* eslint-disable no-unused-vars */
+/* eslint-disable max-len */
+
 import React, {
   useState, useEffect, createContext, useContext,
 } from 'react';
 import axios from 'axios';
 import FriendEntry from './FriendEntry.jsx';
 import { AppContext } from './App.jsx';
-const allFriends = ['Brian', 'Eliza', 'Ryan', 'Emily', 'Evan'];
 
 const Friends = () => {
-  // Context
-  const { userEmail } = useContext(AppContext);
-  // State
-  const [friendsList, setFriendsList] = useState(allFriends); // array of friends emails
+  const { userEmail, selectedFriends, setSelectedFriends } = useContext(AppContext);
+  const [friendsList, setFriendsList] = useState([]); // array of friends emails
   const [friendGetData, setFriendGetData] = useState(''); // freetime/friends
-  // allFriends = allFriends.filter((item, i) => { return item !== currentUser; });
 
-  // Functions
   const getAllFriends = () => {
-    // if (userEmail) {
     axios
       .get('/freetime/friends', { params: { email: userEmail } })
       .then((response) => {
         const { data } = response;
-        // console.log(data);
         setFriendGetData(data);
       })
       .catch((err) => {
         console.log(err);
       });
-    // }
   };
 
   const shapeFriendData = () => {
@@ -42,13 +36,29 @@ const Friends = () => {
     }
   };
 
+  const applyFilterClick = () => {
+    const allSelectedFriends = [];
+    const activeFriend = document.getElementsByClassName('active');
+    if (activeFriend.length) {
+      for (let i = 0; i < activeFriend.length; i++) {
+        const eachFriend = activeFriend[i];
+        allSelectedFriends.push(eachFriend.value);
+      }
+      setSelectedFriends(allSelectedFriends);
+    }
+  };
+
   useEffect(() => {
     getAllFriends();
-  }, []); // invoke this effect only on page load
+  }, []); // EDIT: invoke this effect only once on page load
 
   useEffect(() => {
     shapeFriendData();
-  }, [friendGetData]);
+  }, [friendGetData]); // shape incoming friend data to generate list of friends emails
+
+  if (selectedFriends) {
+    console.log('selected friends state: ', selectedFriends);
+  }
 
   return (
     <div className="friendsList">
@@ -61,6 +71,17 @@ const Friends = () => {
       </div>
 
       <h3><u>My Friends</u></h3>
+
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        applyFilterClick();
+      }}
+      >
+        <input
+          type="submit"
+          value="Apply Filter"
+        />
+      </form>
 
       <ul>
         {friendsList.map((item, i) => {

@@ -1,5 +1,7 @@
 import React from 'react';
-import { Navbar, Container, NavDropdown, Nav } from 'react-bootstrap';
+import {
+  Navbar, Container, NavDropdown, Nav,
+} from 'react-bootstrap';
 import Modal from './ModalComponent.jsx';
 import CreateEventForm from './CreateEventForm.jsx';
 import Suggestion from './Suggestion.jsx';
