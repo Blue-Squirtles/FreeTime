@@ -74,6 +74,7 @@ const Friends = () => {
 
       <form onSubmit={(e) => {
         e.preventDefault();
+        console.log('click');
         applyFilterClick();
       }}
       >
