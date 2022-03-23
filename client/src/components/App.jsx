@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 /* eslint-disable react/function-component-definition */
 /* eslint-disable no-unused-vars */
 
@@ -16,9 +17,11 @@ import Suggestion from './Suggestion';
 import NavComponent from './NavComponent';
 import Friends from './Friends.jsx';
 import AppContext from './AppContext.jsx';
+// import Day from './WeekView/Day.jsx';
+import Week from './WeekView/Week.jsx';
 
 const App = () => {
-  const [userCalendar, setUserCalendar] = useSate(null);
+  const [userCalendar, setUserCalendar] = useState(null);
   const value = useMemo(() => {
     return {
       userCalendar,
@@ -48,6 +51,7 @@ const App = () => {
             </Row>
           </Container>
         </div>
+        <Week />
       </div>
     </AppContext.Provider>
   );
