@@ -21,7 +21,11 @@ function Ruler() {
     <div>
       {hours.map((hour) => {
         return (
+<<<<<<< HEAD
           <Tick id={hour}>{parseInt(hour.slice(0, 2), 10) % 4 === 0 ? hour + '-' : '-'}</Tick>
+=======
+          <div id={hour}>{parseInt(hour.slice(0, 2), 10) % 4 === 0 ? hour + '-' : '-'}</div>
+>>>>>>> creating week view with 7 mapped day components
         );
       })}
     </div>
