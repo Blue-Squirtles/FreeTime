@@ -19,7 +19,10 @@ module.exports = {
 
   import: async (req, res) => {
     // make db query to get users access token
-    const { email, timeMin, timeMax } = req.query;
+    const email = req.query.userEmail;
+    const timeMin = req.query.presentDate;
+    const timeMax = req.query.sevenDaysAway;
+    // const { email, timeMin, timeMax } = req.query;
     const results = await model.getTokens([email]);
     const { access_token, refresh_token } = results.rows[0];
 
