@@ -23,8 +23,8 @@ const exampleActivities = [
     create_user_id: 1,
     name: 'second activity',
     description: 'act description',
-    start: '2022-06-23T02:10:25.000Z',
-    end: '2022-06-23T02:15:25.000Z',
+    start: '2022-06-24T02:10:25.000Z',
+    end: '2022-06-24T02:15:25.000Z',
     Attendees: ['attendee one email', 'attendee two email'],
   },
 ];
@@ -35,31 +35,33 @@ const exampleGoogle = [
     end: '2022-03-23T21:00:00Z',
   },
   {
-    start: '2022-03-23T16:30:00Z',
-    end: '2022-03-23T17:15:00Z',
+    start: '2022-03-24T16:30:00Z',
+    end: '2022-03-24T17:15:00Z',
   },
   {
-    start: '2022-03-23T18:45:00Z',
-    end: '2022-03-23T19:30:00Z',
+    start: '2022-03-25T18:45:00Z',
+    end: '2022-03-25T19:30:00Z',
   },
   {
-    start: '2022-03-23T18:00:00Z',
-    end: '2022-03-23T18:50:00Z',
+    start: '2022-03-26T18:00:00Z',
+    end: '2022-03-26T18:50:00Z',
   },
   {
-    start: '2022-03-23T02:00:00Z',
-    end: '2022-03-23T02:50:00Z',
+    start: '2022-03-27T02:00:00Z',
+    end: '2022-03-27T02:50:00Z',
   },
 ];
 
-const WeekWrapepr = styled.div`
+const WeekWrapper = styled.div`
   border-color: red;
+  border-style: solid;
   display: flex;
   flex-direction: row;
   justify-content: center;
   height: 80vh;
-  width:80vw;
+  width: 80vw;
 `;
+
 const filterEvents = (date, events) => {
   // if the date formate is like -> 2022-03-22T16:48:14-07:00
   const parsedDate = date.substring(0, 10);
@@ -87,35 +89,37 @@ function Week() {
   // iterate over and preprocess the google events
   // iterate over and preprocess the FreeTime events
   console.log('date: ', date, 'fetchedDays', fetchedDays);
-  const filteredGoogleEvents = exampleGoogle.filter((event) => {
-    const eventDate = event.start.substring(0, 10);
-    if (date === eventDate) {
-      return event;
-    }
-  });
-  const filteredActivities = exampleActivities.filter((activity) => {
-    const activityDate = activity.start.substring(0, 10);
-    if (date === activityDate) {
-      return activity;
-    }
-  });
 
   return (
     <div>
-      <WeekWrapepr>
+      <WeekWrapper>
         <Ruler />
         <div>
           {fetchedDays.map((day) => {
+            const filteredGoogleEvents = exampleGoogle.filter((event) => {
+              const eventDate = event.start.substring(0, 10);
+              if (day === eventDate) {
+                return event;
+              }
+            });
+            const filteredActivities = exampleActivities.filter((activity) => {
+              const activityDate = activity.start.substring(0, 10);
+              if (day === activityDate) {
+                return activity;
+              }
+            });
             return (
-              <Day
-                date={day}
-                google={filteredGoogleEvents}
-                activities={filteredActivities}
-              />
+              <div>
+                <Day
+                  date={day}
+                  google={filteredGoogleEvents}
+                  activities={filteredActivities}
+                />
+              </div>
             );
           })}
         </div>
-      </WeekWrapepr>
+      </WeekWrapper>
     </div>
   );
 }
