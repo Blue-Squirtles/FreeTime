@@ -25,7 +25,9 @@ module.exports = {
     const timeMin = req.query.presentDate;
     const timeMax = req.query.sevenDaysAway;
     // const { email, timeMin, timeMax } = req.query;
+    // console.log('user:', email, timeMin, timeMax);
     const results = await model.getTokens([email]);
+    console.log(results);
     const { access_token, refresh_token } = results.rows[0];
 
     axios({
@@ -50,10 +52,12 @@ module.exports = {
       },
     })
       .then((response) => {
+        console.log('first response', response.data.calendars[email].busy);
         res.status(200).send(response.data.calendars[email].busy);
       })
       .catch((err) => {
         // if error type is 401 refresh token and try again
+        console.log('error', err);
         if (err.response.status !== 401) {
           res.sendStatus(500);
         } else {
@@ -97,6 +101,7 @@ module.exports = {
                 },
               })
                 .then((response) => {
+                  console.log(response.data.calendars[email].body);
                   res.status(200).send(response.data.calendars[email].busy);
                 })
                 .catch((err) => {
