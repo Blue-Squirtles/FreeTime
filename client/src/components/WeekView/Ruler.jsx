@@ -19,9 +19,9 @@ const hours = getHours();
 function Ruler() {
   return (
     <div>
-      {hours.map((hour) => {
+      {hours.map((hour, i) => {
         return (
-          <Tick id={hour}>{parseInt(hour.slice(0, 2), 10) % 4 === 0 ? hour + '-' : '-'}</Tick>
+          <Tick id={hour} key={i}>{parseInt(hour.slice(0, 2), 10) % 4 === 0 ? hour + '-' : '-'}</Tick>
         );
       })}
     </div>

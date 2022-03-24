@@ -11,7 +11,7 @@ const percentageCalculator = (time) => {
   const hours = Number(time.substring(11, 13));
   const mins = Number(time.substring(14, 16)) / 60;
   const secs = Number(time.substring(17, 19) / 60 / 60);
-  console.log('hour, min, sec', hours, mins, secs);
+  // console.log('hour, min, sec', hours, mins, secs);
   const percentage = ((hours + mins + secs) / 24) * 100;
   return percentage;
 };
@@ -46,7 +46,7 @@ function Day({ date, google, activities }) {
   let i = 0;
   while (i < occupiedAndScheduledTimes.length) {
     const currentEvent = occupiedAndScheduledTimes[i];
-    console.log('hi', currentEvent);
+    // console.log('hi', currentEvent);
     let j = i + 1;
     const block = currentEvent;
     if (j < occupiedAndScheduledTimes.length) {
@@ -75,24 +75,26 @@ function Day({ date, google, activities }) {
     }
   }
 
-  console.log('continuous', continuousNotFree);
-  console.log('free', freeTime);
+  // console.log('continuous', continuousNotFree);
+  // console.log('free', freeTime);
 
   // console.log('here', date, google, activities);
   return (
     <div>
-      {google.map((busyTime) => {
+      {google.map((busyTime, i) => {
         return (
           <EventBlock
+            key={i}
             start={percentageCalculator(busyTime.start)}
             end={percentageCalculator(busyTime.end)}
             event={false}
           />
         );
       })}
-      {activities.map((activity) => {
+      {activities.map((activity, i) => {
         return (
           <EventBlock
+            key={i}
             start={percentageCalculator(activity.start)}
             end={percentageCalculator(activity.end)}
             event

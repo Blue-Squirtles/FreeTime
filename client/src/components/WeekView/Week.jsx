@@ -88,7 +88,7 @@ function Week() {
   // pretend we have done the processing to only pass the Day component events that are meant for it
   // iterate over and preprocess the google events
   // iterate over and preprocess the FreeTime events
-  console.log('date: ', date, 'fetchedDays', fetchedDays);
+  // console.log('date: ', date, 'fetchedDays', fetchedDays);
 
   return (
     <div>

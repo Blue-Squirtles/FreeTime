@@ -25,16 +25,10 @@ export const AppContext = createContext();
 const myJWT = document.cookie.split('=')[2];
 
 const App = () => {
-  const [userEmail, setUserEmail] = useState('');
-  const [presentDate, setPresentDate] = useState(''); // present date
-  const [sevenDaysAway, setSevenDaysAway] = useState(''); // the date 8 days in the future
+  const [presentDate, setPresentDate] = useState(moment().format());
   const [userCalendar, setUserCalendar] = useState(null);
-  const value = useMemo(() => {
-    return {
-      userCalendar,
-      setUserCalendar,
-    };
-  }, [userCalendar]);
+  const [allCalendarsArray, setAllCalendarsArray] = useState([]);
+  const [selectedFriends, setSelectedFriends] = useState([]);
 
   const parseJwt = (token) => {
     const base64Url = token.split('.')[1];
@@ -44,38 +38,62 @@ const App = () => {
     }).join(''));
     return JSON.parse(jsonPayload);
   };
-  const myEmail = (parseJwt(myJWT).email);
-  const currentTime = moment().format();
-  const sevenDays = moment(currentTime).add(7, 'days').format();
+  const userEmail = (parseJwt(myJWT).email);
+  const sevenDaysAway = moment(presentDate).add(7, 'days').format();
 
-  const getUserCalendar = () => {
-    axios.get('/freetime/import', { params: { userEmail, presentDate, sevenDaysAway } })
+  const getUserCalendar = (currentEmail) => {
+    axios.get('/freetime/import', { params: { userEmail: currentEmail, presentDate, sevenDaysAway } })
       .then((response) => {
-        setUserCalendar(response.data);
+        const oneCalendar = [response.data];
+        // set the user calendar state to the response given the email arg
+        setUserCalendar(oneCalendar);
+        // instead push calendar data into an array
+        // Log the current calendar array
+        console.log('allcalendar state: ', allCalendarsArray);
+        // Log the incoming calendar data
+        console.log('incoming calendar data: ', oneCalendar);
+        // Combine and log the concatenated calendar data
+        const calendarsJoined = allCalendarsArray.concat(oneCalendar);
+        // Update the allCalendars state as needed
+        setAllCalendarsArray(calendarsJoined);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
+  const getFriendsCalendars = () => {
+    console.log('across the storming bridge');
+    if (selectedFriends) {
+      console.log('and into the dark cavern', selectedFriends); // []
+      // iterate over selected friends
+      selectedFriends.forEach((friend) => {
+        console.log('to fight the divine dragon', friend);
+        // invoke getUserCalendar() with each email/element as arg
+        getUserCalendar(friend);
+      });
+    }
+  };
+
   useEffect(() => {
-    setUserEmail(myEmail);
-    setPresentDate(currentTime);
-    setSevenDaysAway(sevenDays);
+    getUserCalendar(userEmail);
   }, []);
 
-  // useEffect(() => {
-  //   getUserCalendar();
-  // }, [sevenDaysAway]);
-  if (userEmail && presentDate && sevenDaysAway) {
-    getUserCalendar();
-  }
+  const value = useMemo(() => {
+    return {
+      userCalendar,
+      setUserCalendar,
+      presentDate,
+      setPresentDate,
+      userEmail,
+      selectedFriends,
+      setSelectedFriends,
+      getFriendsCalendars,
+    };
+  }, [userCalendar, presentDate, selectedFriends]);
 
   return (
-    <AppContext.Provider value={{
-      userEmail, presentDate, sevenDaysAway, value, userCalendar
-    }}
-    >
+    <AppContext.Provider value={value}>
       <div>
 
         <Container>
