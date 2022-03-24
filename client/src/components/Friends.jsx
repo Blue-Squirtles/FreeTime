@@ -10,10 +10,10 @@ import FriendEntry from './FriendEntry.jsx';
 import { AppContext } from './App.jsx';
 
 const Friends = () => {
-  const { userEmail } = useContext(AppContext);
+  const { userEmail, selectedFriends, setSelectedFriends, getFriendsCalendars } = useContext(AppContext);
   const [friendsList, setFriendsList] = useState([]); // array of friends emails
-  const [selectedFriends, setSelectedFriends] = useState('');
-  let friendGetData = '';
+  // const [selectedFriends, setSelectedFriends] = useState('');
+  const friendGetData = '';
 
   const shapeFriendData = (friendResponse) => {
     const friendsArray = [];
@@ -28,8 +28,9 @@ const Friends = () => {
       .get('/freetime/friends', { params: { email: userEmail } })
       .then((response) => {
         const { data } = response;
+
         const friends = shapeFriendData(data);
-        console.log('friends', friends);
+        console.log('all my friends', friends);
         setFriendsList(friends);
       })
       .catch((err) => {
@@ -38,8 +39,7 @@ const Friends = () => {
   };
 
   const applyFilterClick = (e) => {
-    console.log('test');
-    let allSelectedFriends = [];
+    const allSelectedFriends = [];
     const activeFriend = document.getElementsByClassName('active');
     if (activeFriend.length) {
       for (let i = 0; i < activeFriend.length; i += 1) {
@@ -47,14 +47,21 @@ const Friends = () => {
         allSelectedFriends.push(eachFriend.value);
       }
     }
-    console.log('selected friends: ', allSelectedFriends);
-    setSelectedFriends(allSelectedFriends);
-    console.log('after state set friends: ', selectedFriends);
+    setSelectedFriends([...allSelectedFriends]);
+    setTimeout(() => {
+      console.log('Your journey begins here at the gates of Elder Young traveler: <insert name here>');
+      getFriendsCalendars();
+    }, 1000);
   };
 
   useEffect(() => {
     getAllFriends();
-  }, []); // EDIT: invoke this effect only once on page load
+  }, []);
+
+  useEffect(() => {
+    console.log('this happened');
+    getFriendsCalendars();
+  }, [selectedFriends]);
 
   return (
     <div className="friendsList">
