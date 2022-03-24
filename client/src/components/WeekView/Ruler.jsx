@@ -6,6 +6,15 @@ const Tick = styled.div`
   height: ${100 / 24}%;
 `;
 
+const RulerBar = styled.div`
+  width: 10%;
+  text-align: right;
+  font-size: 80%;
+`;
+const Weekday = styled.div`
+  height: 30px;
+`;
+
 const getHours = () => {
   const items = [];
   new Array(24).fill().forEach((acc, index) => {
@@ -18,13 +27,14 @@ const hours = getHours();
 
 function Ruler() {
   return (
-    <div>
-      {hours.map((hour, i) => {
+    <RulerBar>
+      <Weekday>Date</Weekday>
+      {hours.map((hour) => {
         return (
           <Tick id={hour} key={i}>{parseInt(hour.slice(0, 2), 10) % 4 === 0 ? hour + '-' : '-'}</Tick>
         );
       })}
-    </div>
+    </RulerBar>
   );
 }
 

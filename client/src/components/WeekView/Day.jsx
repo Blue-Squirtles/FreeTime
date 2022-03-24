@@ -11,7 +11,10 @@ const percentageCalculator = (time) => {
   const hours = Number(time.substring(11, 13));
   const mins = Number(time.substring(14, 16)) / 60;
   const secs = Number(time.substring(17, 19) / 60 / 60);
+<<<<<<< HEAD
   // console.log('hour, min, sec', hours, mins, secs);
+=======
+>>>>>>> a48fbe9 (light styling and all three event types render)
   const percentage = ((hours + mins + secs) / 24) * 100;
   return percentage;
 };
@@ -19,9 +22,7 @@ const percentageCalculator = (time) => {
 const DayWrapper = styled.div`
   border-style: solid;
   height: 80vh;
-  width: 10vw;
   position: relative;
-
 `;
 
 function Day({ date, google, activities }) {
@@ -46,7 +47,10 @@ function Day({ date, google, activities }) {
   let i = 0;
   while (i < occupiedAndScheduledTimes.length) {
     const currentEvent = occupiedAndScheduledTimes[i];
+<<<<<<< HEAD
     // console.log('hi', currentEvent);
+=======
+>>>>>>> a48fbe9 (light styling and all three event types render)
     let j = i + 1;
     const block = currentEvent;
     if (j < occupiedAndScheduledTimes.length) {
@@ -74,20 +78,27 @@ function Day({ date, google, activities }) {
       freeTime.push([continuousNotFree[k][1], continuousNotFree[k + 1][0]]);
     }
   }
+  // edge case for no google events or scheduled activites in a day
+  if (occupiedAndScheduledTimes.length === 0) freeTime.push([0, 100]);
+  // edge case for one entry in continuousNotFree
+  if (continuousNotFree.length === 1) {
+    const start = continuousNotFree[0][0];
+    const end = continuousNotFree[0][1];
+    if (start >= 2.08) freeTime.push([0, start]);
+    if (100 - end >= 2.08) freeTime.push([end, 100]);
+  }
 
-  // console.log('continuous', continuousNotFree);
-  // console.log('free', freeTime);
-
-  // console.log('here', date, google, activities);
   return (
-    <div>
-      {google.map((busyTime, i) => {
+    <DayWrapper>
+      {google.map((busyTime) => {
         return (
           <EventBlock
             key={i}
             start={percentageCalculator(busyTime.start)}
             end={percentageCalculator(busyTime.end)}
-            event={false}
+            type="google"
+            color={4}
+
           />
         );
       })}
@@ -97,7 +108,9 @@ function Day({ date, google, activities }) {
             key={i}
             start={percentageCalculator(activity.start)}
             end={percentageCalculator(activity.end)}
-            event
+            type="activity"
+            color={0}
+
           />
         );
       })}
@@ -106,11 +119,12 @@ function Day({ date, google, activities }) {
           <EventBlock
             start={available[0]}
             end={available[1]}
-            event
+            type="free"
+            color={2}
           />
         );
       })}
-    </div>
+    </DayWrapper>
   );
 }
 
