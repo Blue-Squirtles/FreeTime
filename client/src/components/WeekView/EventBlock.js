@@ -15,8 +15,12 @@ const EventBlock = styled.div`
   top: ${(props) => props.start}%;
   height: ${(props) => props.end - props.start}%;
   width: 100%;
-  background-color: ${(props) => props.event ? 'orange' : 'grey'};
+  background-color: ${(props) => {
+    const colors = ['#3d5a80', '#98c1d9', '#e0fbfc', '#ee6c4d', '#293241'];
+    return colors[props.color];
+  }};
   /* border-color: blue; */
+  z-index: 5;
 `;
 
 export default EventBlock;

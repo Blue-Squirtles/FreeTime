@@ -93,24 +93,24 @@ const App = () => {
   }, [userCalendar, presentDate, selectedFriends]);
 
   return (
-    <AppContext.Provider value={value}>
-      <div>
-
-        <Container>
-          <NavComponent />
-          <Row>
-            <Col xs={12} md={3}>
-              <SideBar>
-                {userEmail && <Friends />}
-              </SideBar>
-            </Col>
-            <Col xs={6} md={9}>
-              <Week />
-            </Col>
-          </Row>
-        </Container>
-
-      </div>
+    <AppContext.Provider value={{
+      userEmail, presentDate, sevenDaysAway, value, userCalendar
+    }}
+    >
+      <Container>
+        <NavComponent />
+        <Row>
+          <Col xs={12} md={3}>
+            <SideBar>
+              {userEmail && <Friends />}
+              <div id="buttonDiv" />
+            </SideBar>
+          </Col>
+          <Col xs={6} md={9}>
+            <Week />
+          </Col>
+        </Row>
+      </Container>
     </AppContext.Provider>
 
   );
@@ -120,7 +120,7 @@ export default App;
 
 const SideBar = styled.div`
   max-width: 350px;
-  height: 1000px;
+  height: 80vh;
   background-color: gray;
 `;
 
