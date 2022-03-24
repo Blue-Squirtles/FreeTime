@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
+import moment from 'moment';
 
 // Components--
 import styled from 'styled-components';
@@ -26,8 +27,7 @@ const myJWT = document.cookie.split('=')[2];
 const App = () => {
   const [userEmail, setUserEmail] = useState('');
   const [presentDate, setPresentDate] = useState(''); // present date
-  const [eightDaysAway, setEightDaysAway] = useState(''); // the date 8 days in the future
-  const [selectedFriends, setSelectedFriends] = useState('');
+  const [sevenDaysAway, setSevenDaysAway] = useState(''); // the date 8 days in the future
   const [userCalendar, setUserCalendar] = useState(null);
   const value = useMemo(() => {
     return {
@@ -45,14 +45,35 @@ const App = () => {
     return JSON.parse(jsonPayload);
   };
   const myEmail = (parseJwt(myJWT).email);
+  const currentTime = moment().format();
+  const sevenDays = moment(currentTime).add(7, 'days').format();
+
+  const getUserCalendar = () => {
+    axios.get('/freetime/import', { params: { userEmail, presentDate, sevenDaysAway } })
+      .then((response) => {
+        setUserCalendar(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     setUserEmail(myEmail);
+    setPresentDate(currentTime);
+    setSevenDaysAway(sevenDays);
   }, []);
+
+  // useEffect(() => {
+  //   getUserCalendar();
+  // }, [sevenDaysAway]);
+  if (userEmail && presentDate && sevenDaysAway) {
+    getUserCalendar();
+  }
 
   return (
     <AppContext.Provider value={{
-      userEmail, selectedFriends, setSelectedFriends, presentDate, eightDaysAway, value
+      userEmail, presentDate, sevenDaysAway, value, userCalendar
     }}
     >
       <div>
