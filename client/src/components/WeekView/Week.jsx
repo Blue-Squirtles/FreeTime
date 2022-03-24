@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
+import { Col } from 'react-bootstrap';
 
 import Ruler from './Ruler.jsx';
 import Day from './Day.jsx';
@@ -104,11 +105,15 @@ function Week() {
       <WeekWrapepr>
         <Ruler />
         <div>
-          <Day
-            date={selectedDay}
-            google={filteredGoogleEvents}
-            activities={filteredActivities}
-          />
+          {fetchedDays.map((day) => {
+            return (
+              <Day
+                date={day}
+                google={filteredGoogleEvents}
+                activities={filteredActivities}
+              />
+            );
+          })}
         </div>
       </WeekWrapepr>
     </div>
