@@ -29,8 +29,9 @@ const App = () => {
   const [allGoogleActivities, setAllGoogleActivities] = useState([]);
   const [allFreeTimeActivities, setAllFreeTimeActivities] = useState([]);
 
-  // const myJWT = document.cookie.split('=')[2];
-
+  const myJWT = document.cookie.split('=')[3];
+  console.log(myJWT);
+  
   const parseJwt = (token) => {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -40,6 +41,7 @@ const App = () => {
     return JSON.parse(jsonPayload);
   };
   const userEmail = (parseJwt(myJWT).email);
+
   const sevenDaysAway = moment(presentDate).add(7, 'days').format();
 
   const getGoogleCalendar = (currentEmail) => {
