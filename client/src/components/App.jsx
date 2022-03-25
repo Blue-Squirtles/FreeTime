@@ -30,7 +30,7 @@ const App = () => {
   const [allGoogleActivities, setAllGoogleActivities] = useState([]);
   const [allFreeTimeActivities, setAllFreeTimeActivities] = useState([]);
 
-  const myJWT = document.cookie.split('=')[3];
+  const myJWT = document.cookie.split('=')[2];
   console.log(myJWT);
 
   const parseJwt = (token) => {
@@ -107,13 +107,14 @@ const App = () => {
       <AppContainer>
         <NavComponent />
         <Row>
-          <Col xs={12} md={3}>
+          {/* <Col xs={12} md={3}> */}
+            <Col lg={{ span: 3, offset: 1 }}>
             <SideBar>
               {userEmail && <Friends />}
               <div id="buttonDiv" />
             </SideBar>
           </Col>
-          <Col xs={12} md={9}>
+          <Col sm={12} md={7}>
             <Week />
           </Col>
         </Row>
@@ -128,14 +129,15 @@ export default App;
 
 const SideBar = styled.div`
   background-color: rgb(41, 50, 65);
-
   height: auto;
-  font-size: 20px;
+  font-size: 18px;
   align-content: flex-end;
   font-family: 'Raleway', sans-serif;
+  margin-top: 30px;
 `;
 
 const AppContainer = styled.div`
   background-color: rgb(41, 50, 65);
   box-sizing: border-box;
+  padding-top: 15px;
 `;

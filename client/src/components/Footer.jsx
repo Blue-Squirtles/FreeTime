@@ -8,7 +8,7 @@ const Footer = () => {
       <p style={{ color: "white",
                    textAlign: "center",
                    }}>
-        © Free Time Inc.
+        © Rocket Science Inc.
       </p>
     </Box>
   );

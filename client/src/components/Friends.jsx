@@ -101,7 +101,7 @@ export default Friends;
 
 const FormInput = styled.input`
   background-color:#0a0a23;
-  color: #fff;
+  color: #F1F8E9;
   border: none;
   border-radius:10px;
   padding:10px;
@@ -129,5 +129,5 @@ const FriendsContainer = styled.div`
   // justify-content: space-evenly;
   align-items: center;
   height: 60vh;
-  padding: 20px;
+  padding: 10px;
 `
