@@ -29,7 +29,7 @@ function Ruler() {
   return (
     <RulerBar>
       <Weekday>Date</Weekday>
-      {hours.map((hour) => {
+      {hours.map((hour, i) => {
         return (
           <Tick id={hour} key={i}>{parseInt(hour.slice(0, 2), 10) % 4 === 0 ? hour + '-' : '-'}</Tick>
         );

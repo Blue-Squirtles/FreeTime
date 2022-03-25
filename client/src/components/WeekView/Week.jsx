@@ -263,7 +263,7 @@ function Week() {
     <WeekView>
       <Ruler />
       <WeekWrapper>
-        {fetchedDays.map((day) => {
+        {fetchedDays.map((day, i) => {
           const filteredGoogleEvents = filterEvents(day, exampleGoogle);
           const filteredActivities = filterEvents(day, exampleActivities);
           // const filteredGoogleEvents = filterEvents(day, exampleGoogle3Selected);
@@ -274,6 +274,7 @@ function Week() {
             <TitleAndColor>
               <Title>{moment(day).format('dddd, MMM Do')}</Title>
               <Day
+                key={i}
                 date={day}
                 google={filteredGoogleEvents}
                 activities={filteredActivities}

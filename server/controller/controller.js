@@ -27,7 +27,7 @@ module.exports = {
     // const { email, timeMin, timeMax } = req.query;
     // console.log('user:', email, timeMin, timeMax);
     const results = await model.getTokens([email]);
-    console.log(results);
+    // console.log(results);
     const { access_token, refresh_token } = results.rows[0];
 
     axios({
@@ -52,7 +52,7 @@ module.exports = {
       },
     })
       .then((response) => {
-        console.log('first response', response.data.calendars[email].busy);
+        // console.log('first response', response.data.calendars[email].busy);
         res.status(200).send(response.data.calendars[email].busy);
       })
       .catch((err) => {
@@ -101,7 +101,7 @@ module.exports = {
                 },
               })
                 .then((response) => {
-                  console.log(response.data.calendars[email].body);
+                  // console.log(response.data.calendars[email].body);
                   res.status(200).send(response.data.calendars[email].busy);
                 })
                 .catch((err) => {
