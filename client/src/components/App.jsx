@@ -23,15 +23,6 @@ import Week from './WeekView/Week.jsx';
 export const AppContext = createContext();
 
 const App = () => {
-  const [signedIn, setSignedIn] = useState(false);
-  const [presentDate, setPresentDate] = useState(moment().format());
-  const [selectedFriends, setSelectedFriends] = useState([]);
-  const [allGoogleActivities, setAllGoogleActivities] = useState([]);
-  const [allFreeTimeActivities, setAllFreeTimeActivities] = useState([]);
-
-  const myJWT = document.cookie.split('=')[3];
-  console.log(myJWT);
-  
   const parseJwt = (token) => {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -40,19 +31,23 @@ const App = () => {
     }).join(''));
     return JSON.parse(jsonPayload);
   };
+
+  const myJWT = document.cookie.split('=')[2];
   const userEmail = (parseJwt(myJWT).email);
+
+  const [signedIn, setSignedIn] = useState(false);
+  const [presentDate, setPresentDate] = useState(moment().format());
+  const [selectedFriends, setSelectedFriends] = useState([]);
+  const [allGoogleActivities, setAllGoogleActivities] = useState([]);
+  const [allFreeTimeActivities, setAllFreeTimeActivities] = useState([]);
 
   const sevenDaysAway = moment(presentDate).add(7, 'days').format();
 
   const getGoogleCalendar = (currentEmail) => {
     axios.get('/freetime/import', { params: { userEmail: currentEmail, presentDate, sevenDaysAway } })
       .then((response) => {
-        // console.log('google calendar init: ', allGoogleActivities);
-        const incomingCalendar = [response.data];
-        // console.log('incoming google data: ', incomingCalendar);
-        const calendarsJoined = allGoogleActivities.concat(incomingCalendar);
-        // console.log('google arrays joined:', calendarsJoined);
-        setAllGoogleActivities(calendarsJoined);
+        const incomingCalendar = response.data;
+        setAllGoogleActivities((p) => { return ([...p, incomingCalendar]); });
       })
       .catch((err) => {
         console.log(err);
@@ -64,12 +59,8 @@ const App = () => {
     // axios the free time calendar activities given an input email
     axios.get('/freetime/activities', { params: { email: currentEmail } })
       .then((response) => {
-        // console.log('freetime array init: ', allFreeTimeActivities );
-        const newCalendar = response.data;
-        // console.log('incoming freetime data: ', newCalendar);
-        const joinedCalendar = allFreeTimeActivities.concat(newCalendar);
-        // console.log('freetime data joined:', joinedCalendar);
-        setAllFreeTimeActivities(joinedCalendar);
+        const incomingCalendar = response.data;
+        setAllFreeTimeActivities((p) => { return ([...p, incomingCalendar]); });
       })
       .catch((err) => {
         console.log(err);
@@ -77,9 +68,10 @@ const App = () => {
   };
 
   const getFriendsCalendars = () => {
+    // set state to empty
     selectedFriends.forEach((friend) => {
-      getGoogleCalendar(friend);
-      getFreeTimeCalendar(friend);
+      getGoogleCalendar(friend); // let this return a calendar
+      // getFreeTimeCalendar(friend);
     });
   };
 
@@ -96,7 +88,9 @@ const App = () => {
       setSelectedFriends,
       getFriendsCalendars,
       allGoogleActivities,
+      setAllGoogleActivities,
       allFreeTimeActivities,
+      setAllFreeTimeActivities,
     };
   }, [presentDate, selectedFriends, allGoogleActivities, allFreeTimeActivities]);
 

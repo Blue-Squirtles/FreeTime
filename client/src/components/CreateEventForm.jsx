@@ -25,20 +25,17 @@ function CreateEventForm() {
           </FloatingLabel>
 
           <FloatingLabel controlId="floatingInput"
-            label="Time"
+            label="Start Time"
             className="mb-3"
           >
             <Form.Control type="time" placeholder="time" />
           </FloatingLabel>
-
-          <FloatingLabel
-            controlId="floatingInput"
-            label="Invite Friends"
+          <FloatingLabel controlId="floatingInput"
+            label="End Time"
             className="mb-3"
           >
-            <Form.Control type="name" placeholder="friendsName" />
+            <Form.Control type="time" placeholder="time" />
           </FloatingLabel>
-
           <FloatingLabel controlId="floatingTextarea2" label="Event Description">
             <Form.Control
               as="textarea"
@@ -52,10 +49,10 @@ function CreateEventForm() {
         </Form.Group> */}
         {/* <Button variant="primary" type="submit">
           Submit
-  </Button> */}
+        </Button> */}
       </Form>
     </div>
-  )
+  );
 }
 
 export default CreateEventForm;
