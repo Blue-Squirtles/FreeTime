@@ -11,10 +11,6 @@ const percentageCalculator = (time) => {
   const hours = Number(time.substring(11, 13));
   const mins = Number(time.substring(14, 16)) / 60;
   const secs = Number(time.substring(17, 19) / 60 / 60);
-<<<<<<< HEAD
-  // console.log('hour, min, sec', hours, mins, secs);
-=======
->>>>>>> a48fbe9 (light styling and all three event types render)
   const percentage = ((hours + mins + secs) / 24) * 100;
   return percentage;
 };
@@ -47,10 +43,6 @@ function Day({ date, google, activities }) {
   let i = 0;
   while (i < occupiedAndScheduledTimes.length) {
     const currentEvent = occupiedAndScheduledTimes[i];
-<<<<<<< HEAD
-    // console.log('hi', currentEvent);
-=======
->>>>>>> a48fbe9 (light styling and all three event types render)
     let j = i + 1;
     const block = currentEvent;
     if (j < occupiedAndScheduledTimes.length) {
@@ -90,7 +82,7 @@ function Day({ date, google, activities }) {
 
   return (
     <DayWrapper>
-      {google.map((busyTime) => {
+      {google.map((busyTime, i) => {
         return (
           <EventBlock
             key={i}
@@ -114,9 +106,10 @@ function Day({ date, google, activities }) {
           />
         );
       })}
-      {freeTime.map((available) => {
+      {freeTime.map((available, i) => {
         return (
           <EventBlock
+            key={i}
             start={available[0]}
             end={available[1]}
             type="free"

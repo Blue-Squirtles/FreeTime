@@ -22,13 +22,14 @@ import Week from './WeekView/Week.jsx';
 
 export const AppContext = createContext();
 
-const myJWT = document.cookie.split('=')[2];
-
 const App = () => {
+  const [signedIn, setSignedIn] = useState(false);
   const [presentDate, setPresentDate] = useState(moment().format());
-  const [userCalendar, setUserCalendar] = useState(null);
-  const [allCalendarsArray, setAllCalendarsArray] = useState([]);
   const [selectedFriends, setSelectedFriends] = useState([]);
+  const [allGoogleActivities, setAllGoogleActivities] = useState([]);
+  const [allFreeTimeActivities, setAllFreeTimeActivities] = useState([]);
+
+  // const myJWT = document.cookie.split('=')[2];
 
   const parseJwt = (token) => {
     const base64Url = token.split('.')[1];
@@ -41,21 +42,32 @@ const App = () => {
   const userEmail = (parseJwt(myJWT).email);
   const sevenDaysAway = moment(presentDate).add(7, 'days').format();
 
-  const getUserCalendar = (currentEmail) => {
+  const getGoogleCalendar = (currentEmail) => {
     axios.get('/freetime/import', { params: { userEmail: currentEmail, presentDate, sevenDaysAway } })
       .then((response) => {
-        const oneCalendar = [response.data];
-        // set the user calendar state to the response given the email arg
-        setUserCalendar(oneCalendar);
-        // instead push calendar data into an array
-        // Log the current calendar array
-        console.log('allcalendar state: ', allCalendarsArray);
-        // Log the incoming calendar data
-        console.log('incoming calendar data: ', oneCalendar);
-        // Combine and log the concatenated calendar data
-        const calendarsJoined = allCalendarsArray.concat(oneCalendar);
-        // Update the allCalendars state as needed
-        setAllCalendarsArray(calendarsJoined);
+        // console.log('google calendar init: ', allGoogleActivities);
+        const incomingCalendar = [response.data];
+        // console.log('incoming google data: ', incomingCalendar);
+        const calendarsJoined = allGoogleActivities.concat(incomingCalendar);
+        // console.log('google arrays joined:', calendarsJoined);
+        setAllGoogleActivities(calendarsJoined);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getFreeTimeCalendar = (currentEmail) => {
+    console.log('inside freetime cal func');
+    // axios the free time calendar activities given an input email
+    axios.get('/freetime/activities', { params: { email: currentEmail } })
+      .then((response) => {
+        // console.log('freetime array init: ', allFreeTimeActivities );
+        const newCalendar = response.data;
+        // console.log('incoming freetime data: ', newCalendar);
+        const joinedCalendar = allFreeTimeActivities.concat(newCalendar);
+        // console.log('freetime data joined:', joinedCalendar);
+        setAllFreeTimeActivities(joinedCalendar);
       })
       .catch((err) => {
         console.log(err);
@@ -63,40 +75,31 @@ const App = () => {
   };
 
   const getFriendsCalendars = () => {
-    console.log('across the storming bridge');
-    if (selectedFriends) {
-      console.log('and into the dark cavern', selectedFriends); // []
-      // iterate over selected friends
-      selectedFriends.forEach((friend) => {
-        console.log('to fight the divine dragon', friend);
-        // invoke getUserCalendar() with each email/element as arg
-        getUserCalendar(friend);
-      });
-    }
+    selectedFriends.forEach((friend) => {
+      getGoogleCalendar(friend);
+      getFreeTimeCalendar(friend);
+    });
   };
 
   useEffect(() => {
-    getUserCalendar(userEmail);
+    getGoogleCalendar(userEmail);
   }, []);
 
   const value = useMemo(() => {
     return {
-      userCalendar,
-      setUserCalendar,
       presentDate,
       setPresentDate,
       userEmail,
       selectedFriends,
       setSelectedFriends,
       getFriendsCalendars,
+      allGoogleActivities,
+      allFreeTimeActivities,
     };
-  }, [userCalendar, presentDate, selectedFriends]);
+  }, [presentDate, selectedFriends, allGoogleActivities, allFreeTimeActivities]);
 
   return (
-    <AppContext.Provider value={{
-      userEmail, presentDate, sevenDaysAway, value, userCalendar
-    }}
-    >
+    <AppContext.Provider value={value}>
       <Container>
         <NavComponent />
         <Row>

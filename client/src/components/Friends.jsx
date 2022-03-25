@@ -12,7 +12,6 @@ import { AppContext } from './App.jsx';
 const Friends = () => {
   const { userEmail, selectedFriends, setSelectedFriends, getFriendsCalendars } = useContext(AppContext);
   const [friendsList, setFriendsList] = useState([]); // array of friends emails
-  // const [selectedFriends, setSelectedFriends] = useState('');
   const friendGetData = '';
 
   const shapeFriendData = (friendResponse) => {
@@ -48,10 +47,7 @@ const Friends = () => {
       }
     }
     setSelectedFriends([...allSelectedFriends]);
-    setTimeout(() => {
-      console.log('Your journey begins here at the gates of Elder Young traveler: <insert name here>');
-      getFriendsCalendars();
-    }, 1000);
+    getFriendsCalendars();
   };
 
   useEffect(() => {
@@ -59,7 +55,6 @@ const Friends = () => {
   }, []);
 
   useEffect(() => {
-    console.log('this happened');
     getFriendsCalendars();
   }, [selectedFriends]);
 
