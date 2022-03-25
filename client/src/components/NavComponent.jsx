@@ -5,6 +5,7 @@ import {
 import Modal from './ModalComponent.jsx';
 import CreateEventForm from './CreateEventForm.jsx';
 import Suggestion from './Suggestion.jsx';
+import styled from 'styled-components';
 
 function NavComponent() {
   return (
@@ -33,3 +34,8 @@ function NavComponent() {
 }
 
 export default NavComponent;
+
+const StyledNav = styled(Nav)`
+  background-color: 98c1d9;
+  border: 2px;
+`;
