@@ -231,7 +231,7 @@ const filterEvents = (date, calendars) => {
       allEvents.push(calendars[i][k]);
     }
   }
-  console.log('flattened calendar', allEvents);
+
   const filteredEvents = allEvents.filter((event) => {
     const eventDate = event.start.substring(0, 10);
     if (parsedDate === eventDate) {
@@ -267,8 +267,6 @@ function Week() {
           // const filteredActivities = filterEvents(day, exampleActivities3Selected);
           const filteredGoogleEvents = filterEvents(day, allGoogleActivities);
           const filteredActivities = filterEvents(day, allFreeTimeActivities);
-          // console.log('filteredGoogleEvents', filteredGoogleEvents);
-          // console.log('filteredActivities', filteredActivities);
           return (
             <TitleAndColor>
               <Title>{moment(day).format('dddd, MMM Do')}</Title>

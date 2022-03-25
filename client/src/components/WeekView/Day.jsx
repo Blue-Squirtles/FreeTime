@@ -26,8 +26,6 @@ const DayWrapper = styled.div`
 `;
 
 function Day({ date, google, activities }) {
-  // const test = percentageCalculator('2022-03-22T02:15:25.000Z');
-  // console.log('test', test);
   const occupiedAndScheduledTimes = []; // tuples representing start and end percents
   const continuousNotFree = [];
   const freeTime = [];
