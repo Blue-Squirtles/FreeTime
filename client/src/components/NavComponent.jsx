@@ -9,16 +9,15 @@ import styled from 'styled-components';
 
 function NavComponent() {
   return (
-    <Navbar bg="light" expand="xl">
+    <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand href="#home">Free Time</Navbar.Brand>
+        <Navbar.Brand href="#home"><BrandName>Free Time</BrandName></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
           <Nav>
-            <Modal header="Create Event" buttonLabel="Create Event" submitButton="Send Event" body={<CreateEventForm />} />
-            <Modal header="Stats" buttonLabel="Stats" />
-            <Modal header="Suggestion" buttonLabel="Suggestion" submitButton="Accept" declineButton="Decline" body={<Suggestion />} />
-            <Nav.Link href="#link">Setting</Nav.Link>
+            <Nav.Link href=""><Modal header="Create Event" buttonLabel="Create Event" submitButton="Send Event" body={<CreateEventForm />} /></Nav.Link>
+            <Nav.Link href=""><Modal header="Stats" buttonLabel="Stats" /></Nav.Link>
+            <Nav.Link href=""><Modal header="Suggestion" buttonLabel="Suggestion" submitButton="Accept" declineButton="Decline" body={<Suggestion />} /></Nav.Link>
             {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
@@ -34,8 +33,15 @@ function NavComponent() {
 }
 
 export default NavComponent;
+const BrandName = styled.h1`
+  background-color: rgb(41, 50, 65);
+  color: #fff;
+  border: none;
+  border-radius:10px;
+  padding:10px;
+`
 
-const StyledNav = styled(Nav)`
-  background-color: 98c1d9;
+const StyledNav = styled(Navbar)`
+  background-color: rgb(41, 50, 65);
   border: 2px;
 `;

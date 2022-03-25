@@ -19,6 +19,7 @@ import NavComponent from './NavComponent.jsx';
 import Friends from './Friends.jsx';
 // import Day from './WeekView/Day.jsx';
 import Week from './WeekView/Week.jsx';
+import Footer from './Footer.jsx';
 
 export const AppContext = createContext();
 
@@ -29,9 +30,14 @@ const App = () => {
   const [allGoogleActivities, setAllGoogleActivities] = useState([]);
   const [allFreeTimeActivities, setAllFreeTimeActivities] = useState([]);
 
+<<<<<<< HEAD
   const myJWT = document.cookie.split('=')[3];
   console.log(myJWT);
   
+=======
+  const myJWT = document.cookie.split('=')[2];
+
+>>>>>>> f7d6205 (css changes on sidebar and app background)
   const parseJwt = (token) => {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -41,7 +47,11 @@ const App = () => {
     return JSON.parse(jsonPayload);
   };
   const userEmail = (parseJwt(myJWT).email);
+<<<<<<< HEAD
 
+=======
+  // let userEmail;
+>>>>>>> f7d6205 (css changes on sidebar and app background)
   const sevenDaysAway = moment(presentDate).add(7, 'days').format();
 
   const getGoogleCalendar = (currentEmail) => {
@@ -102,20 +112,20 @@ const App = () => {
 
   return (
     <AppContext.Provider value={value}>
-      <Container>
+      <AppContainer>
         <NavComponent />
         <Row>
           <Col xs={12} md={3}>
             <SideBar>
               {userEmail && <Friends />}
-              <div id="buttonDiv" />
             </SideBar>
           </Col>
-          <Col xs={6} md={9}>
+          <Col xs={12} md={9}>
             <Week />
           </Col>
         </Row>
-      </Container>
+        <Footer />
+      </AppContainer>
     </AppContext.Provider>
 
   );
@@ -124,11 +134,15 @@ const App = () => {
 export default App;
 
 const SideBar = styled.div`
-  max-width: 350px;
-  height: 80vh;
-  background-color: gray;
+  background-color: rgb(41, 50, 65);
+
+  height: auto;
+  font-size: 20px;
+  align-content: flex-end;
+  font-family: 'Raleway', sans-serif;
 `;
 
-const View = styled.div`
-  width: 100px;
+const AppContainer = styled.div`
+  background-color: rgb(41, 50, 65);
+  box-sizing: border-box;
 `;
