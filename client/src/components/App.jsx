@@ -29,9 +29,8 @@ const App = () => {
   const [allGoogleActivities, setAllGoogleActivities] = useState([]);
   const [allFreeTimeActivities, setAllFreeTimeActivities] = useState([]);
 
-  const myJWT = document.cookie.split('=')[3];
-  console.log(myJWT);
-  
+  const myJWT = document.cookie.split('=')[2];
+
   const parseJwt = (token) => {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');

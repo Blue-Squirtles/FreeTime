@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
 import { Col } from 'react-bootstrap';
-
 import Ruler from './Ruler.jsx';
 import Day from './Day.jsx';
-
-// This will dynamically map to create 7 'Day' components along with day of the week title
+import { AppContext } from '../App.jsx';
 
 const exampleActivities = [
   {
@@ -28,7 +26,6 @@ const exampleActivities = [
     Attendees: ['attendee one email', 'attendee two email'],
   },
 ];
-
 const exampleGoogle = [
   {
     start: '2022-03-24T20:30:00Z',
@@ -55,7 +52,6 @@ const exampleGoogle = [
     end: '2022-03-28T18:00:00Z',
   },
 ];
-
 const exampleGoogle3Selected = [
   [
     {
@@ -123,7 +119,6 @@ const exampleGoogle3Selected = [
       end: '2022-03-26T01:00:00Z',
     },
   ]];
-
 const exampleActivities3Selected = [
   [
     {
@@ -195,7 +190,6 @@ const WeekView = styled.div`
   height: 80vh;
   margin: 0px, 20px, 20px, 20px;
 `;
-
 const WeekWrapper = styled.div`
   /* border-color: red; */
   /* border-style: solid; */
@@ -204,7 +198,6 @@ const WeekWrapper = styled.div`
   justify-content: center;
   height: 80vh;
 `;
-
 const TitleAndColor = styled.div`
   display: flex;
   flex-direction: column;
@@ -218,10 +211,28 @@ const Title = styled.div`
   font-size: 80%;
 `;
 
+// const filterEvents = (date, calendars) => {
+//   // if the date format is like -> 2022-03-22T16:48:14-07:00
+//   const parsedDate = moment(date).format('YYYY-MM-DD');
+//   const filteredEvents = calendars.filter((event) => {
+//     const eventDate = event.start.substring(0, 10);
+//     if (parsedDate === eventDate) {
+//       return event;
+//     }
+//   });
+//   return filteredEvents;
+// };
+
 const filterEvents = (date, calendars) => {
-  // if the date format is like -> 2022-03-22T16:48:14-07:00
   const parsedDate = moment(date).format('YYYY-MM-DD');
-  const filteredEvents = calendars.filter((event) => {
+  const allEvents = [];
+  for (let i = 0; i < calendars.length; i += 1) {
+    for (let k = 0; k < calendars[i].length; k += 1) {
+      allEvents.push(calendars[i][k]);
+    }
+  }
+  console.log('flattened calendar', allEvents);
+  const filteredEvents = allEvents.filter((event) => {
     const eventDate = event.start.substring(0, 10);
     if (parsedDate === eventDate) {
       return event;
@@ -230,22 +241,9 @@ const filterEvents = (date, calendars) => {
   return filteredEvents;
 };
 
-// const filterEvents = (date, calendars) => {
-//   const parsedDate = moment(date).format('YYYY-MM-DD');
-//   const filteredEvents = calendars.map((calendar) => {
-//     console.log('calendar', calendar);
-//     calendar.filter((event) => {
-//       const eventDate = moment(event.start).format('YYYY-MM-DD');
-//       if (parsedDate === eventDate) {
-//         return event;
-//       }
-//     });
-//   });
-//   return filteredEvents;
-// };
-
 function Week() {
   const [selectedDay, setSelectedDay] = useState(moment().format()); // 2022-03-22T16:48:14-07:00
+  const { allGoogleActivities, allFreeTimeActivities } = useContext(AppContext);
   const getDays = (day) => {
     const items = [];
     new Array(7).fill().forEach((acc, index) => {
@@ -265,10 +263,10 @@ function Week() {
       <Ruler />
       <WeekWrapper>
         {fetchedDays.map((day, i) => {
-          const filteredGoogleEvents = filterEvents(day, exampleGoogle);
-          const filteredActivities = filterEvents(day, exampleActivities);
           // const filteredGoogleEvents = filterEvents(day, exampleGoogle3Selected);
           // const filteredActivities = filterEvents(day, exampleActivities3Selected);
+          const filteredGoogleEvents = filterEvents(day, allGoogleActivities);
+          const filteredActivities = filterEvents(day, allFreeTimeActivities);
           // console.log('filteredGoogleEvents', filteredGoogleEvents);
           // console.log('filteredActivities', filteredActivities);
           return (
