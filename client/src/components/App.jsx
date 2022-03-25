@@ -35,15 +35,12 @@ const App = () => {
   const myJWT = document.cookie.split('=')[2];
   const userEmail = (parseJwt(myJWT).email);
 
-<<<<<<< HEAD
-=======
   const [signedIn, setSignedIn] = useState(false);
   const [presentDate, setPresentDate] = useState(moment().format());
   const [selectedFriends, setSelectedFriends] = useState([]);
   const [allGoogleActivities, setAllGoogleActivities] = useState([]);
   const [allFreeTimeActivities, setAllFreeTimeActivities] = useState([]);
 
->>>>>>> 095611b (friends can be selected and unselected)
   const sevenDaysAway = moment(presentDate).add(7, 'days').format();
 
   const getGoogleCalendar = (currentEmail) => {
