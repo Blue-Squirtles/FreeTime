@@ -3,14 +3,14 @@
 import React, {
   useState, useEffect, createContext, useContext,
 } from 'react';
+import styled from 'styled-components';
 
-const FriendEntry = ({ friendName }) => {
+const FriendEntry = ({ friendName, className, checked, props }) => {
   const [active, setActive] = useState(false);
 
   return (
-    <div className="eachFriend">
-
-      <input
+    <InputGroup className="eachFriend">
+      <InputStyle
         type="checkbox"
         onChange={(e) => {
           // console.log(`${friendName} 's box was selected`);
@@ -24,9 +24,19 @@ const FriendEntry = ({ friendName }) => {
         value={friendName}
       />
       {friendName}
-
-    </div>
+    </InputGroup>
   );
 };
 
 export default FriendEntry;
+
+const InputGroup = styled.div`
+  padding: 15px;
+  margin: 10px;
+  background: #F1F8E9;
+  border-radius: 20px;
+`
+const InputStyle = styled.input`
+  margin: 8px;
+  transform: scale(1.5);
+`

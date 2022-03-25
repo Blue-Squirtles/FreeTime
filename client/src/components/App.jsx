@@ -19,6 +19,7 @@ import NavComponent from './NavComponent.jsx';
 import Friends from './Friends.jsx';
 // import Day from './WeekView/Day.jsx';
 import Week from './WeekView/Week.jsx';
+import Footer from './Footer.jsx';
 
 export const AppContext = createContext();
 
@@ -96,20 +97,22 @@ const App = () => {
 
   return (
     <AppContext.Provider value={value}>
-      <Container>
+      <AppContainer>
         <NavComponent />
         <Row>
-          <Col xs={12} md={3}>
+          {/* <Col xs={12} md={3}> */}
+            <Col lg={{ span: 3, offset: 1 }}>
             <SideBar>
               {userEmail && <Friends />}
               <div id="buttonDiv" />
             </SideBar>
           </Col>
-          <Col xs={6} md={9}>
+          <Col sm={12} md={7}>
             <Week />
           </Col>
         </Row>
-      </Container>
+        <Footer />
+      </AppContainer>
     </AppContext.Provider>
 
   );
@@ -118,11 +121,16 @@ const App = () => {
 export default App;
 
 const SideBar = styled.div`
-  max-width: 350px;
-  height: 80vh;
-  background-color: gray;
+  background-color: rgb(41, 50, 65);
+  height: auto;
+  font-size: 18px;
+  align-content: flex-end;
+  font-family: 'Raleway', sans-serif;
+  margin-top: 30px;
 `;
 
-const View = styled.div`
-  width: 100px;
+const AppContainer = styled.div`
+  background-color: rgb(41, 50, 65);
+  box-sizing: border-box;
+  padding-top: 15px;
 `;

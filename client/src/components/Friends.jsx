@@ -8,6 +8,7 @@ import React, {
 import axios from 'axios';
 import FriendEntry from './FriendEntry.jsx';
 import { AppContext } from './App.jsx';
+import styled from 'styled-components';
 
 const Friends = () => {
   const { userEmail, selectedFriends, setSelectedFriends, getFriendsCalendars, setAllGoogleActivities } = useContext(AppContext);
@@ -59,28 +60,19 @@ const Friends = () => {
   }, [selectedFriends]);
 
   return (
-    <div className="friendsList">
+    <FriendsContainer className="friendsList">
 
-      <div>
+      <LoggedIn>
         Logged in as:
         <i>
           <b>{` ${userEmail}`}</b>
         </i>
-      </div>
+      </LoggedIn>
 
-      <h3><u>My Friends</u></h3>
+      <div id="buttonDiv" />
 
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        console.log('click');
-        applyFilterClick(e);
-      }}
-      >
-        <input
-          type="submit"
-          value="Apply Filter"
-        />
-      </form>
+      <FriendsDiv>
+      <h3 style={{marginBottom: '25px', color: 'white', fontSize: '45px'}}>My Friends</h3>
 
       <ul>
         {friendsList.map((item, i) => {
@@ -88,8 +80,54 @@ const Friends = () => {
         })}
       </ul>
 
-    </div>
+
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        console.log('click');
+        applyFilterClick(e);
+      }}
+      >
+        <FormInput
+          type="submit"
+          value="Apply Filter"
+        />
+      </form>
+      </FriendsDiv>
+    </FriendsContainer>
   );
 };
 
 export default Friends;
+
+const FormInput = styled.input`
+  background-color:#0a0a23;
+  color: #F1F8E9;
+  border: none;
+  border-radius:10px;
+  padding:10px;
+  min-height:30px;
+  min-width: 120px;
+`
+const LoggedIn = styled.div`
+  font-size: 12px;
+  align-content: flex-start;
+  align-items: start;
+  margin-bottom: 10px;
+  color: white;
+`
+const FriendsDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+`
+const FriendsContainer = styled.div`
+  background-color: rgb(41, 50, 65);
+  display: flex;
+  flex-direction: column;
+  // justify-content: space-evenly;
+  align-items: center;
+  height: 60vh;
+  padding: 10px;
+`

@@ -11,9 +11,9 @@ function ModalComponent({
 
   return (
     <div>
-      <Button variant="primary" onClick={handleShow}>
+      <a variant="primary" onClick={handleShow}>
         {buttonLabel}
-      </Button>
+      </a>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>{header}</Modal.Title>

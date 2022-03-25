@@ -188,40 +188,53 @@ const WeekView = styled.div`
   flex-direction: row;
   justify-content: center;
   height: 80vh;
-  margin: 0px, 20px, 20px, 20px;
+  color: white;
+  // background-color: black;
+  // margin: 0px, 20px, 20px, 20px;
 `;
+
 const WeekWrapper = styled.div`
   /* border-color: red; */
   /* border-style: solid; */
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   height: 80vh;
+  width: 100%;
+  padding: 10px;
+  border: white solid 3px;
 `;
 const TitleAndColor = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
   width: 7.5vw;
 `;
 const Title = styled.div`
   text-align: center;
   width: 4vw;
-  height:5.5%;
+  height: 5.5%;
   font-size: 80%;
 `;
 
-// const filterEvents = (date, calendars) => {
-//   // if the date format is like -> 2022-03-22T16:48:14-07:00
-//   const parsedDate = moment(date).format('YYYY-MM-DD');
-//   const filteredEvents = calendars.filter((event) => {
-//     const eventDate = event.start.substring(0, 10);
-//     if (parsedDate === eventDate) {
-//       return event;
-//     }
-//   });
-//   return filteredEvents;
-// };
+const ContainerStyle = styled.div`
+  // width: auto;
+  // height: auto;
+  background-color: rgba(255,255,255, 0.2);
+  padding: 50px;
+  border-radius: 5px;
+  backdrop-filter: blur(30px);
+  margin: 10px;
+  margin-top: 30px;
+  border: 4px solid transparent;
+  background-clip: padding-box;
+  box-shadow: 0px 0px 40px #000;
+  @media (max-width: 1000px) {
+    margin-top: 10px;
+    line-height: 1.0;
+  }
+`
 
 const filterEvents = (date, calendars) => {
   const parsedDate = moment(date).format('YYYY-MM-DD');
@@ -259,6 +272,7 @@ function Week() {
   // iterate over and preprocess the FreeTime events
 
   return (
+  <ContainerStyle >
     <WeekView>
       <Ruler />
       <WeekWrapper>
@@ -268,10 +282,9 @@ function Week() {
           const filteredGoogleEvents = filterEvents(day, allGoogleActivities);
           const filteredActivities = filterEvents(day, allFreeTimeActivities);
           return (
-            <TitleAndColor>
-              <Title>{moment(day).format('dddd, MMM Do')}</Title>
+            <TitleAndColor key={i}>
+              <Title >{moment(day).format('dddd, MMM Do')}</Title>
               <Day
-                key={i}
                 date={day}
                 google={filteredGoogleEvents}
                 activities={filteredActivities}
@@ -281,6 +294,7 @@ function Week() {
         })}
       </WeekWrapper>
     </WeekView>
+  </ContainerStyle>
   );
 }
 

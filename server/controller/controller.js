@@ -114,10 +114,10 @@ module.exports = {
 
   getFriends: (req, res) => {
     const email = [req.query.email];
-    // console.log('email: ', email);
+    console.log('email: ', email);
     model.getFriends(email, (error, results) => {
       if (error) {
-        // console.log(error);
+        console.log(error);
         res.sendStatus(500);
       } else {
         res.send(results.rows);
