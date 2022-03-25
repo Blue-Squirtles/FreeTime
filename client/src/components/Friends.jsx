@@ -109,7 +109,7 @@ const FormInput = styled.input`
   min-width: 120px;
 `
 const LoggedIn = styled.div`
-  font-size: 11px;
+  font-size: 12px;
   align-content: flex-start;
   align-items: start;
   margin-bottom: 10px;
