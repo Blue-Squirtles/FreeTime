@@ -12,6 +12,7 @@ import styled from 'styled-components';
 
 const EventBlock = styled.div`
   position: absolute;
+  /* margin: auto; */
   top: ${(props) => props.start}%;
   height: ${(props) => props.end - props.start}%;
   width: 100%;

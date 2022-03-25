@@ -16,8 +16,12 @@ const percentageCalculator = (time) => {
 };
 
 const DayWrapper = styled.div`
-  border-style: solid;
-  height: 80vh;
+  border-style: transparent;
+  border-width: thin;
+  border-color: lightgrey;
+  border-radius: 4%;
+  height: 94.5%;
+  width: 6.5vw;
   position: relative;
 `;
 

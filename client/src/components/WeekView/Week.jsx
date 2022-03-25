@@ -187,8 +187,8 @@ const exampleActivities3Selected = [
   ]];
 
 const WeekView = styled.div`
-  border-color: red;
-  border-style: solid;
+  /* border-color: green; */
+  /* border-style: solid; */
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -197,8 +197,8 @@ const WeekView = styled.div`
 `;
 
 const WeekWrapper = styled.div`
-  border-color: red;
-  border-style: solid;
+  /* border-color: red; */
+  /* border-style: solid; */
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -209,11 +209,12 @@ const TitleAndColor = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 7.5vw;
 `;
 const Title = styled.div`
   text-align: center;
-  width: 12%;
-  height: 30px;
+  width: 4vw;
+  height:5.5%;
   font-size: 80%;
 `;
 
