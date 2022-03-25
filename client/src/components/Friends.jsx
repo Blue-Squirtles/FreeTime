@@ -11,7 +11,7 @@ import { AppContext } from './App.jsx';
 import styled from 'styled-components';
 
 const Friends = () => {
-  const { userEmail, selectedFriends, setSelectedFriends, getFriendsCalendars } = useContext(AppContext);
+  const { userEmail, selectedFriends, setSelectedFriends, getFriendsCalendars, setAllGoogleActivities } = useContext(AppContext);
   const [friendsList, setFriendsList] = useState([]); // array of friends emails
   const friendGetData = '';
 
@@ -39,7 +39,7 @@ const Friends = () => {
   };
 
   const applyFilterClick = (e) => {
-    const allSelectedFriends = [];
+    const allSelectedFriends = [userEmail];
     const activeFriend = document.getElementsByClassName('active');
     if (activeFriend.length) {
       for (let i = 0; i < activeFriend.length; i += 1) {
@@ -48,7 +48,6 @@ const Friends = () => {
       }
     }
     setSelectedFriends([...allSelectedFriends]);
-    getFriendsCalendars();
   };
 
   useEffect(() => {
@@ -56,6 +55,7 @@ const Friends = () => {
   }, []);
 
   useEffect(() => {
+    setAllGoogleActivities([]);
     getFriendsCalendars();
   }, [selectedFriends]);
 

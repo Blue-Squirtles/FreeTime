@@ -32,14 +32,13 @@ app.get('/oauth2callback', async (req, res) => {
 
   // Parse and validate JWT to the ID
   // Store token with associated user (based on id)
-  console.log(JSON.stringify(req.cookies.jwt, null, '  '));
-  console.log('tokens', JSON.stringify(tokens, null, '  '));
+  // console.log(JSON.stringify(req.cookies.jwt, null, '  '));
+  // console.log('tokens', JSON.stringify(tokens, null, '  '));
 
   const ticket = await oauth2Client.verifyIdToken({ idToken: req.cookies.jwt });
   const payload = ticket.getPayload();
   const { email } = payload;
 
-  console.log(JSON.stringify(email));
   const user = [email, tokens.access_token, tokens.refresh_token];
   controller.addUser(user, (err, result) => {
     if (err === null) {

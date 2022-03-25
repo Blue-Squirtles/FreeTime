@@ -49,7 +49,6 @@ function CreateEventForm() {
           <Form.Control type="time" placeholder="time" />
         </FloatingLabel>
 
-
         <Form.Text className="text-muted">
           Select End Time
               </Form.Text>
