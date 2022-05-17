@@ -22,7 +22,7 @@ To accomplish this the programs used include [React](https://reactjs.org) and se
 
 ## How to set up the application
 - Run `npm install` inside this directory to install dependencies.
-- Ensure that MySQL server is running on your computer (`sudo service mysql status`).
+- Ensure that PostgreSQL instance is running on your computer (`psql -d mydb -U myusername`).
 - Create the database and tables using the provided `schema.sql` by running the following command (`psql -f /server/database/schema.sql`).
 - Start the application using the provided Express web server with two commands, `npm run react-dev` and `npm start`, in two separate terminal tabs.
 - Upon page load the user will be prompted to login to their existing google account, which will enable the ability to import one's calendar
